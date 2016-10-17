@@ -17,12 +17,8 @@ import android.util.Log;
 import android.view.WindowManager;
 
 public class MainActivity extends Activity implements CvCameraViewListener2 {
-    private static final String TAG = "Scanner";
-
-    private Mat mStart;
-    private Mat mIntermediateMat;
+    private static final String TAG = "Canny";
     private Mat mGray;
-    private Mat mLines;
     private Mat mRgba;
 
     private CameraBridgeViewBase   mOpenCvCameraView;
@@ -58,6 +54,7 @@ public class MainActivity extends Activity implements CvCameraViewListener2 {
 
         mOpenCvCameraView = (CameraBridgeViewBase) findViewById(R.id.surfaceView);
         mOpenCvCameraView.setVisibility(CameraBridgeViewBase.VISIBLE);
+        mOpenCvCameraView.setCameraIndex(CameraBridgeViewBase.CAMERA_ID_BACK);
         mOpenCvCameraView.setCvCameraViewListener(this);
     }
 
@@ -88,18 +85,12 @@ public class MainActivity extends Activity implements CvCameraViewListener2 {
     }
 
     public void onCameraViewStarted(int width, int height) {
-        mStart = new Mat(height, width, CvType.CV_8UC4);
         mRgba = new Mat(height, width, CvType.CV_8UC4);
-        mIntermediateMat = new Mat(height, width, CvType.CV_8UC4);
         mGray = new Mat(height, width, CvType.CV_8UC1);
-        mLines = new Mat();
     }
 
     public void onCameraViewStopped() {
-        mStart.release();
         mGray.release();
-        mIntermediateMat.release();
-        mLines.release();
         mRgba.release();
     }
 
